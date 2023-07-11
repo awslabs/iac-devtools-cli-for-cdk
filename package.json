@@ -90,7 +90,7 @@
     "rxjs": "^7.8.1",
     "safe-buffer": "^5.2.1",
     "safer-buffer": "^2.1.2",
-    "semver": "^5.7.1",
+    "semver": "^5.7.2",
     "shebang-command": "^2.0.0",
     "shebang-regex": "^3.0.0",
     "signal-exit": "^3.0.7",
