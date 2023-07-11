@@ -135,7 +135,7 @@ const boxenStyle = {
 
 export async function cli(args) {
   const welcomeText =
-    "🪄 Create your CDK app or add components from opinionated templates. Created by Sam Ward Biddle (sambiddl@amazon.com) 🪄\nJoin #cdk-powertools-interest on slack\n";
+    "🪄 Create your CDK app or add components from opinionated templates. Created by Sam Ward Biddle of AWS for Energy ⚡️ 🪄\nhttps://github.com/aws-samples/cdk-powertools-cli/\n";
   console.log(boxen(welcomeText, boxenStyle));
   let options = parseArgumentsIntoOptions(args);
   options = await promptForMissingOptions(options);
