@@ -13,9 +13,7 @@ This command line interface tool automates many of the tedious tasks of building
 
 ### 1/ Install the repository globally
 
-This npm package is published to public npm under @aws/cdk-powertools-cli
-
-To install directly from the git source you can also use the command below, but we recommend using the npm repository.
+To install directly from the git source you can also use the command below. Coming soon this will be available via npm.
 
 ```sh
 npm i -g https://github.com/aws-samples/cdk-powertools-cli.git
@@ -66,5 +64,5 @@ Since this is not yet in a public npm registry the easiest update method right n
 ## 🗑️ How to remove
 
 ```sh
-npm uninstall  -g @aws/cdk-powertools
+npm uninstall  -g @aws-energy-solutions/cdk-powertools
 ```
