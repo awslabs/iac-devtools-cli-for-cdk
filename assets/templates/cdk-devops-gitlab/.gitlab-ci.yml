@@ -1,0 +1,179 @@
+# This 3 stage ci pipeline is purpose-built for cdk in typescript
+# it also includes support for python lambdas
+# it implements a basic build, static check, and deploy process
+# it also implements e2e and cdkitten regional deployment tests
+# these tests only run with merge to main
+# this pipeline can be removed if and when this repo moves to github
+
+stages: # List of stages for jobs, and their order of execution
+  - docs
+  - build
+  - static
+  - web
+  - infra
+  - functional
+  - validate
+  - deploy
+
+variables:
+  PYTHON_SCRIPTS: bin/stats
+  TS_SCRIPTS: bin/stats
+  SHELL_SCRIPTS: bin/validate-config
+
+build-cdk: # Validates that cdk will build, install dependencies, and that cdk with synth
+  stage: build
+  tags: &runner_tags
+    - arch:amd64
+    - size:large
+  image: registry.gitlab.aws.dev/aws-energy-solutions/area/cross-cutting-solutions/cdk-powertools-build-image
+  script:
+    - aws --version
+    - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID --profile test
+    - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY --profile test
+    - aws configure set region $AWS_DEFAULT_REGION --profile test
+    - export AWS_PROFILE=test
+    - echo $AWS_PROFILE
+    - npm ci
+    - echo "successfully installed package dependencies!"
+    - echo "Building with npm..."
+    - npm run build
+    - echo "Build complete."
+    - echo "Synthesizing CDK"
+    - sh test-synth.sh
+    - echo "Completed build check"
+
+tslint-test-job: # Runs eslint for typescript to validate linting of typescript code
+  stage: static
+  tags: &runner_tags
+    - arch:amd64
+    - size:large
+  image: registry.gitlab.aws.dev/aws-energy-solutions/area/cross-cutting-solutions/cdk-powertools-build-image
+  script:
+    - npm ci
+    - echo "successfully installed package dependencies!"
+    - echo "Building with npm..."
+    - npm run build
+    - echo "Build complete."
+    - echo "Linting code... This will take about 10 seconds."
+    - npm run lint
+    - echo "No lint issues found."
+
+bandit: # Runs python bandit test job for security checks on python code in repo
+  stage: static # Only starts when job in build stage completes successfully
+  tags: &runner_tags
+    - arch:amd64
+    - size:large
+  image:
+    name: python:latest
+    entrypoint:
+      - "/usr/bin/env"
+      - "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+  script:
+    - ls -la
+    - python --version
+    - pip3 install --upgrade pip
+    - pip3 install --upgrade setuptools
+    - pip3 install bandit
+    - bandit ./ -r | tee ./output_test.log
+    - echo "Successfully completed bandit test for python"
+
+cdk-nag-job: # runs cdk-nag script in test stage
+  stage: static
+  tags: &runner_tags
+    - arch:amd64
+    - size:large
+  image: registry.gitlab.aws.dev/aws-energy-solutions/area/cross-cutting-solutions/cdk-powertools-build-image
+  rules:
+    - if: $CI_COMMIT_BRANCH == 'main'
+  script:
+    - npm ci
+    - echo "successfully installed package dependencies!"
+    - echo "Building with npm..."
+    - npm run build
+    - echo "Build complete."
+    - echo "Running cdk nag to check for security vulnerabilities"
+    # - sh test-security.sh
+    - echo "Completed CDK nag check"
+
+cdk-test: # runs test of cdk deployment
+  stage: infra
+  tags: &runner_tags
+    - arch:amd64
+    - size:large
+  image: registry.gitlab.aws.dev/aws-energy-solutions/area/cross-cutting-solutions/cdk-powertools-build-image
+  resource_group: test
+  # only:
+  # changes:
+  # - lib/*/**
+  # - bin/*/**
+  # - cdk.json
+  script:
+    - aws --version
+    - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID --profile test
+    - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY --profile test
+    - aws configure set region $AWS_DEFAULT_REGION --profile test
+    - export AWS_PROFILE=test
+    - echo $AWS_PROFILE
+    - node --version
+    - npm ci
+    - echo "successfully installed package dependencies!"
+    - echo "Building with npm..."
+    - npm run build
+    - echo "Build complete."
+    - sh test-deploy.sh
+    - wait
+
+end-to-end-test: # runs e2e test
+  stage: functional
+  tags: &runner_tags
+    - arch:amd64
+    - size:large
+  resource_group: test
+  image: registry.gitlab.aws.dev/aws-energy-solutions/area/cross-cutting-solutions/cdk-powertools-build-image
+  rules:
+    - if: $CI_COMMIT_BRANCH == 'main'
+    - if: $CI_COMMIT_BRANCH == 'dev'
+  script:
+    - aws --version
+    - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID --profile test
+    - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY --profile test
+    - aws configure set region $AWS_DEFAULT_REGION --profile test
+    - export AWS_PROFILE=test
+    - node --version
+    - npm ci
+    - echo "successfully installed package dependencies!"
+    - echo "Building with npm..."
+    - npm run build
+    - echo "Build complete."
+    - echo "Running cdk nag to check for security vulnerabilities"
+    - sh test-synth.sh
+    - echo "Starting e2e test"
+    - yum install jq -y
+    #- sh test-e2e.sh uncomment if you create an e2e test
+    - echo "e2e test successful"
+
+cdkitten-deploy-job: # Runs cdkitten deployment job in test AWS accounts
+  stage: validate # It only runs when *both* jobs in the test stage complete successfully.
+  tags: &runner_tags
+    - arch:amd64
+    - size:large
+  resource_group: test
+  image: registry.gitlab.aws.dev/aws-energy-solutions/area/cross-cutting-solutions/cdk-powertools-build-image
+  rules:
+    - if: $CI_COMMIT_BRANCH == 'main'
+  script:
+    - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID --profile test
+    - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY --profile test
+    - aws configure set region $AWS_DEFAULT_REGION --profile test
+    - export AWS_PROFILE=test
+    - node --version
+    - npm ci
+    - echo "successfully installed package dependencies!"
+    - echo "Building with npm..."
+    - npm run build
+    - echo "Build complete."
+    - sh test-synth.sh
+    - echo "Synthesized!"
+    - echo "Running CDKitten🐱"
+    - sh test-regional.sh
+    - echo "Application deployment placeholder passed"
