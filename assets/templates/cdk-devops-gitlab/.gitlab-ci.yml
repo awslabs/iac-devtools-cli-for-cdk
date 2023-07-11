@@ -25,7 +25,7 @@ build-cdk: # Validates that cdk will build, install dependencies, and that cdk w
   tags: &runner_tags
     - arch:amd64
     - size:large
-  image: registry.gitlab.aws.dev/aws-energy-solutions/area/cross-cutting-solutions/cdk-powertools-build-image
+  image: #insert your image here
   script:
     - aws --version
     - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID --profile test

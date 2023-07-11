@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# WELCOME TO CarbonLake e2e 
+# WELCOME TO CDK e2e 
 
 # to run this script manually navigate to top level directory of the package and sh test-e2e.sh
 sh test-generate-context.sh

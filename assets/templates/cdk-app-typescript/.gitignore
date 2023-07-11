@@ -415,4 +415,4 @@ response.json
 .vscode/
 
 # amplify
-/front-end/carbonlake-ui-cloudscape/amplify/
+/front-end/**/*

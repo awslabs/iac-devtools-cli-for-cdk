@@ -13,13 +13,13 @@ This command line interface tool automates many of the tedious tasks of building
 
 ### 1/ Install the repository globally
 
-This npm package currently requires midway access to the AWS Internal Gitlab. If you are interested in making this available to customers or externally please reach out to us at `#cdk-powertools-interest` and let us know.
+This npm package is published to public npm under @aws/cdk-powertools-cli
+
+To install directly from the git source you can also use the command below, but we recommend using the npm repository.
 
 ```sh
-npm i -g git@ssh.gitlab.aws.dev:aws-energy-solutions/area/cross-cutting-solutions/aws-cdk-powertools-cli.git
+npm i -g https://github.com/aws-samples/cdk-powertools-cli.git
 ```
-
-![CDK Powertools Installation GIF](./assets/documentation/images/cpt-install.gif)
 
 ### 2/ Check install
 
@@ -66,5 +66,5 @@ Since this is not yet in a public npm registry the easiest update method right n
 ## 🗑️ How to remove
 
 ```sh
-npm uninstall  -g cdk-powertools
+npm uninstall  -g @aws/cdk-powertools
 ```
