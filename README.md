@@ -1,4 +1,4 @@
-# AWS CDK Powertools CLI
+# IaC Developer Tools CLI for CDK
 
 This command line interface tool automates many of the tedious tasks of building, adding to, documenting, and extending AWS CDK applications. It is an opinionated tool that integrates Well-Architected principals of cloud native software design by default.
 
@@ -16,7 +16,7 @@ This command line interface tool automates many of the tedious tasks of building
 To install directly from the git source you can also use the command below. Coming soon this will be available via npm.
 
 ```sh
-npm i -g https://github.com/aws-samples/cdk-powertools-cli.git
+npm i -g https://github.com/aws-samples/iac-devtools-cli-for-cdk.git
 ```
 
 ### 2/ Check install
