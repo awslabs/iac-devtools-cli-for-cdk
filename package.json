@@ -1,11 +1,11 @@
 {
-  "name": "@aws-energy-solutions/cdk-powertools",
+  "name": "@aws-energy-solutions/iac-devtools-cli-for-cdk",
   "version": "1.0.0",
   "description": "This command line interface tool automates many of the tedious tasks of building, adding to, documenting, and extending AWS CDK applications. It is an opinionated tool that integrates Well-Architected principals of cloud native software design by default.",
   "main": "bin/index.js",
   "type": "module",
   "bin": {
-    "cpt": "bin/index.js"
+    "idt": "bin/index.js"
   },
   "dependencies": {
     "ansi-escapes": "^4.3.2",
