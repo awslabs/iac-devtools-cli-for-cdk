@@ -45,6 +45,7 @@ async function promptForMissingOptionsTemplate(options) {
         "cdk-app-typescript",
         "cdk-stack-typescript",
         "cdk-construct-typescript",
+        "cdk-construct-custom-resource-typescript",
         "cdk-devops-gitlab",
         "cdk-devops-github",
       ],
@@ -124,7 +125,7 @@ async function promptForMissingOptions(options) {
 }
 
 const boxenStyle = {
-  title: "🚀 AWS CDK Powertools 🛠️",
+  title: "🚀 IAC Devtools CLI for CDK (IDT) 🛠️",
   titleAlignment: "center",
   textAlignment: "center",
   padding: 1,
@@ -135,7 +136,7 @@ const boxenStyle = {
 
 export async function cli(args) {
   const welcomeText =
-    "🪄 Create your CDK app or add components from opinionated templates. Created by Sam Ward Biddle of AWS for Energy ⚡️ 🪄\nhttps://github.com/aws-samples/cdk-powertools-cli/\n";
+    "🪄 Create your CDK app or add components from opinionated templates. Created by the AWS for Energy Team ⚡️ 🪄\nhttps://github.com/aws-samples/iac-devtools-cli-for-cdk/\n";
   console.log(boxen(welcomeText, boxenStyle));
   let options = parseArgumentsIntoOptions(args);
   options = await promptForMissingOptions(options);

@@ -1,4 +1,4 @@
-# IaC Developer Tools CLI for CDK
+# IaC Developer Tools CLI for CDK (IDT)
 
 This command line interface tool automates many of the tedious tasks of building, adding to, documenting, and extending AWS CDK applications. It is an opinionated tool that integrates Well-Architected principals of cloud native software design by default.
 
@@ -25,7 +25,7 @@ npm i -g https://github.com/aws-samples/iac-devtools-cli-for-cdk.git
 npm ls -g
 ```
 
-You should see a version of `cdk-powertools` listed in your node packages.
+You should see a version of `iac-devtools-cli-for-cdk` listed in your node packages.
 
 ### 3/ Navigate to the directory you want to work from
 
@@ -42,6 +42,18 @@ If you are adding a construct or stack you will need to navigate to the director
 cd path/of/your/directory
 ```
 
+Run the tool!
+
+```sh
+
+idt
+
+```
+
+You should see some options that look like this:
+
+![IDT setup GIF](./assets/documentation/images/idt-start.gif)
+
 Follow the prompts to:
 
 - Create a whole application
@@ -49,13 +61,13 @@ Follow the prompts to:
 - Create an application construct
 - Create devops tools
 
-![CDK Powertools setup GIF](./assets/documentation/images/cpt-setup.gif)
+![IDT create project GIF](./assets/documentation/images/idt-create-project.gif)
 
 ### 4/ Review what you have created
 
 You will now see a full populated template in your working directory.
 
-![CDK Powertools tour GIF](./assets/documentation/images/cpt-tour.gif)
+![IDT tour GIF](./assets/documentation/images/idt-project-tour.gif)
 
 ## 🌅 How to update
 
@@ -64,5 +76,15 @@ Since this is not yet in a public npm registry the easiest update method right n
 ## 🗑️ How to remove
 
 ```sh
-npm uninstall  -g @aws-energy-solutions/cdk-powertools
+npm uninstall  -g @aws-energy-solutions/iac-devtools-cli-for-cdk
 ```
+
+## 🗺️ Planned Features
+
+- [x] Build projects from templates
+- [x] CDK Typescript template
+- [x] CDK Typescript construct template
+- [x] CDK Custom Resource Template
+- [x] Github and Gitlab DevOps tools templates
+- [ ] Run security checks
+- [ ] BYO template directory
