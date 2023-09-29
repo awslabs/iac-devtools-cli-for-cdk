@@ -45,6 +45,7 @@ async function promptForMissingOptionsTemplate(options) {
         "cdk-app-typescript",
         "cdk-stack-typescript",
         "cdk-construct-typescript",
+        "cdk-construct-custom-resource-typescript",
         "cdk-devops-gitlab",
         "cdk-devops-github",
       ],
