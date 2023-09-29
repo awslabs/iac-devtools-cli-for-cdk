@@ -50,6 +50,10 @@ idt
 
 ```
 
+You should see some options that look like this:
+
+![IDT setup GIF](./assets/documentation/images/idt-start.gif)
+
 Follow the prompts to:
 
 - Create a whole application
@@ -57,13 +61,13 @@ Follow the prompts to:
 - Create an application construct
 - Create devops tools
 
-![IDT setup GIF](./assets/documentation/images/cpt-setup.gif)
+![IDT create project GIF](./assets/documentation/images/idt-create-project.gif)
 
 ### 4/ Review what you have created
 
 You will now see a full populated template in your working directory.
 
-![IDT tour GIF](./assets/documentation/images/cpt-tour.gif)
+![IDT tour GIF](./assets/documentation/images/idt-project-tour.gif)
 
 ## 🌅 How to update
 
@@ -74,3 +78,13 @@ Since this is not yet in a public npm registry the easiest update method right n
 ```sh
 npm uninstall  -g @aws-energy-solutions/iac-devtools-cli-for-cdk
 ```
+
+## 🗺️ Planned Features
+
+- [x] Build projects from templates
+- [x] CDK Typescript template
+- [x] CDK Typescript construct template
+- [x] CDK Custom Resource Template
+- [x] Github and Gitlab DevOps tools templates
+- [ ] Run security checks
+- [ ] BYO template directory
